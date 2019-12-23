@@ -124,6 +124,18 @@ void removeNode(struct LinkedList* l, int num)
     }     
 }
 
+// 2.1
+void removeDupNodes(struct LinkedList* l)
+{
+    struct Node* n = l->head;
+
+    while(n != NULL)
+    {
+        
+    }
+
+}
+
 struct LinkedList* reverseList(struct LinkedList* l)
 {
     struct LinkedList* rl = (struct LinkedList*)malloc(sizeof(struct LinkedList));
