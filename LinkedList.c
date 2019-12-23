@@ -124,6 +124,27 @@ void removeNode(struct LinkedList* l, int num)
     }     
 }
 
+struct LinkedList* reverseList(struct LinkedList* l)
+{
+    struct LinkedList* rl = (struct LinkedList*)malloc(sizeof(struct LinkedList));
+    
+    struct Node* prev = NULL;
+    struct Node* curr = l->head;
+    struct Node * next = NULL;
+
+    while(curr != NULL)
+    {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    
+    rl->head = prev;
+    
+    return rl;
+}
+
 // driver function for testing functions
 int main()
 {
@@ -153,5 +174,8 @@ int main()
     removeNode(l, 300);
     printList(l);
     printMiddle(l);
+
+    struct LinkedList* rl = reverseList(l);
+    printList(rl);
     return 0; 
 }
