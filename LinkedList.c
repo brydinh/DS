@@ -65,17 +65,34 @@ void printList(struct LinkedList* l)
 
     if(temp == NULL)
     {
-        printf("LinkedList is currently empty\n\n");
+        printf("EMPTY\n\n");
     }
     else
     {
         while (temp != NULL)
         {
-            printf("Data: %d\t", temp->data);
+            printf("%d", temp->data);
+            
+            if(temp->next != NULL)
+            {
+                printf("->");
+            }
             temp = temp->next;
         }
         printf("\n\n");
     }   
+}
+
+void printMiddle(struct LinkedList* l)
+{
+    struct Node * temp = l->head;
+
+    for(int x=0; x<count(l)/2; x++)
+    {
+        temp = temp->next;
+    }
+
+     printf("Middle: %d\n", temp->data);
 }
 
 // remove node based on its data
@@ -107,29 +124,34 @@ void removeNode(struct LinkedList* l, int num)
     }     
 }
 
-struct Node* peek()
-{
-}
-
 // driver function for testing functions
 int main()
 {
-    struct LinkedList* hi = createLinkedList();
-    insertNode(hi, 1);
-    insertNode(hi, 3);
-    insertNode(hi, 2);
-    printList(hi);
+    struct LinkedList* l = createLinkedList();
+    insertNode(l, 1);
+    insertNode(l, 3);
+    insertNode(l, 2);
+    printList(l);
 
-    removeNode(hi, 3);
-    printList(hi);
+    removeNode(l, 3);
+    printList(l);
 
-    removeNode(hi, 2);
-    printList(hi);
+    removeNode(l, 2);
+    printList(l);
 
-    removeNode(hi, 1);
-    printList(hi);
+    removeNode(l, 1);
+    printList(l);
 
-    insertNode(hi, 100);
-    printList(hi);
+    insertNode(l, 100);
+    insertNode(l, 200);
+    insertNode(l, 300);
+    insertNode(l, 400);
+    printList(l);
+
+    printMiddle(l);
+
+    removeNode(l, 300);
+    printList(l);
+    printMiddle(l);
     return 0; 
 }
