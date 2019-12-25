@@ -124,18 +124,6 @@ void removeNode(struct LinkedList* l, int num)
     }     
 }
 
-// 2.1
-void removeDupNodes(struct LinkedList* l)
-{
-    struct Node* n = l->head;
-
-    while(n != NULL)
-    {
-        
-    }
-
-}
-
 struct LinkedList* reverseList(struct LinkedList* l)
 {
     struct LinkedList* rl = (struct LinkedList*)malloc(sizeof(struct LinkedList));
@@ -155,6 +143,37 @@ struct LinkedList* reverseList(struct LinkedList* l)
     rl->head = prev;
     
     return rl;
+}
+///////////////////////////////////////////////////
+// CTCI Questions:
+///////////////////////////////////////////////////
+
+// 2.1
+void removeDups(struct LinkedList* l)
+{
+    struct Node* n = l->head;
+}
+
+// 2.2
+// Implement an algorithm to find the kth to last element of a singly linked list.
+struct Node* returnKthToLast(struct LinkedList* l, int k)
+{
+    struct Node* temp = l->head;
+    struct Node* temp2 = l->head;
+
+    while(k > 0)
+    {
+        temp = temp->next;
+        k--;
+    }
+
+    while(temp != NULL)
+    {
+        temp = temp->next;
+        temp2 = temp2->next;
+    }
+
+    return temp2;
 }
 
 // driver function for testing functions
@@ -189,5 +208,8 @@ int main()
 
     struct LinkedList* rl = reverseList(l);
     printList(rl);
+
+    struct Node* yo = returnKthToLast(rl, 2);
+    printf("%d\n", yo->data);
     return 0; 
 }
