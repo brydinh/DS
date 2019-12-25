@@ -9,62 +9,48 @@ struct BSTNode
     struct BSTNode* rightChild;
 };
 
-// Binary Search Tree Root
-struct BinarySearchTree
-{
-    struct BSTNode* root;
-};
-
 struct BSTNode* createNode(int num)
 {
     struct BSTNode* node = (struct BSTNode*)malloc(sizeof(struct BSTNode));
-    
     node->data = num;
-    node->leftChild = NULL;
-    node->rightChild = NULL;
+    node->leftChild = node->rightChild = NULL;
 
     return node;
 }
 
-void insertNode(struct BSTNode* root, int data)
+struct BSTNode* insertNode(struct BSTNode* root, int data)
 {
-    printf("in inserNode");
     if(root == NULL)
     {
-        struct BSTNode* insertThis = createNode(data);
-        root = insertThis;
+        root = createNode(data);
     }
     else
     {
-        if(root->data >= data)
+        if(data > root->data)
         {
-            insertNode(root->rightChild, data);
+            root->rightChild = insertNode(root->rightChild, data);  
         }
         else
         {
-            insertNode(root->leftChild, data);
-        }  
+            root->leftChild = insertNode(root->leftChild, data);
+        }      
     }
-}   
 
-struct BinarySearchTree* createRoot()
-{
-    struct BinarySearchTree* b = (struct BinarySearchTree*)malloc(sizeof(struct BinarySearchTree));
-    b->root = NULL;
-    return b;
-}
+    return root;
+}   
 
 
 int main()
 {
-    struct BinarySearchTree* b = createRoot();
+    struct BSTNode* root1 = NULL;
 
-    insertNode(b->root, 5);
-    //insertNode(b->root, 2);
+    root1 = insertNode(root1, 5);
+    root1 = insertNode(root1, 1);
 
-    printf("%d\n", b->root->data);
 
-   // printf("%d\n", b->root->leftChild->data);
+    printf("%d\n", root1->data);
+
+    printf("%d\n", root1->leftChild->data);
 
     return 0; 
 }
