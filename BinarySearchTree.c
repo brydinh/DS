@@ -96,41 +96,57 @@ int isLeaf(struct BSTNode* root , int findThis)
     }
 }
 
-struct BSTNode* retrieveNode(struct BSTNode* root, int findThis)
-{
-    while(root != NULL)
+struct BSTNode* minValueNode(struct BSTNode* node) 
+{ 
+    struct BSTNode* current = node; 
+  
+    /* loop to find the leftmost leaf */
+    while (current && current->leftChild != NULL)
     {
-        if(findThis > root->data)
+        current = current->leftChild; 
+    }
+  
+    return current; 
+} 
+
+struct BSTNode* deleteNode(struct BSTNode* root, int key) 
+{ 
+    if (root == NULL) return root; 
+    if (key < root->data) root->leftChild = deleteNode(root->leftChild, key); 
+    else if (key > root->data) root->rightChild = deleteNode(root->rightChild, key); 
+    else // found node, delete this one
+    {
+        // case 1: node has no children
+        if(root->leftChild == NULL && root->rightChild == NULL)
         {
-            root = root->rightChild;
-        }
-        else if (findThis < root->data)
-        {
-            root = root->leftChild;
-        }
-        else
-        {
+            free(root);
+            root = NULL;
             return root;
         }
-    }
-}
-
-void removeNode(struct BSTNode* root, int findThis)
-{
-    struct BSTNode* removeThis = retrieveNode(root, findThis);
-
-    // // traverse to find parent
-    // while(root != NULL)
-    // {
-    //     if(findThis >  )
-    // }
-
-    if(removeThis->leftChild == NULL && removeThis->rightChild == NULL)
-    {
-        free(removeThis);
-    }
-
-}
+        // case 2: node has 1 children (left or right) 
+        if (root->leftChild == NULL) 
+        { 
+            struct node *temp = root->rightChild; 
+            free(root); 
+            return temp; 
+        } 
+        else if (root->rightChild == NULL) 
+        { 
+            struct node *temp = root->leftChild; 
+            free(root); 
+            return temp; 
+        } 
+  
+        // case 3: node has two children
+        // retrieve inorder successor
+        struct BSTNode* temp = minValueNode(root->rightChild); 
+        root->data = temp->data; 
+  
+        // Delete the inorder successor 
+        root->rightChild = deleteNode(root->rightChild, temp->data); 
+    } 
+    return root; 
+} 
 
 int main()
 {
@@ -157,7 +173,7 @@ int main()
     printf("%d\n", isLeaf(root1, 6)); // should be 1
 
     printf("Before remove \n");
-    removeNode(root1, 0);
+    root1 = deleteNode(root1, 0);
     printf("After remove \n");
 
     printf("Preorder: ");
