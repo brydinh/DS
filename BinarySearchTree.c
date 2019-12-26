@@ -69,25 +69,68 @@ void PrintTreePreorder(struct BSTNode* root)
     PrintTreePreorder(root->rightChild);   
 }
 
-void isLeaf(struct BSTNode* root , int findThis)
+int isLeaf(struct BSTNode* root , int findThis)
 {
-    if(root == NULL) return;
-
-    if(root->data == findThis)
+    while(root != NULL)
     {
-        if(root->leftChild == NULL && root->rightChild == NULL)
+        if(findThis > root->data)
         {
-            printf("is leaf!\n");
+            root = root->rightChild;
+        }
+        else if (findThis < root->data)
+        {
+            root = root->leftChild;
         }
         else
         {
-            printf("is not leaf!\n");
-        }      
+            if(root->leftChild == NULL && root->rightChild == NULL)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
     }
-    isLeaf(root->leftChild, findThis);
-    isLeaf(root->rightChild, findThis);
 }
 
+struct BSTNode* retrieveNode(struct BSTNode* root, int findThis)
+{
+    while(root != NULL)
+    {
+        if(findThis > root->data)
+        {
+            root = root->rightChild;
+        }
+        else if (findThis < root->data)
+        {
+            root = root->leftChild;
+        }
+        else
+        {
+            return root;
+        }
+    }
+}
+
+void removeNode(struct BSTNode* root, int findThis)
+{
+    struct BSTNode* removeThis = retrieveNode(root, findThis);
+
+    // // traverse to find parent
+    // while(root != NULL)
+    // {
+    //     if(findThis >  )
+    // }
+
+    if(removeThis->leftChild == NULL && removeThis->rightChild == NULL)
+    {
+        free(removeThis);
+    }
+
+}
 
 int main()
 {
@@ -109,9 +152,17 @@ int main()
     PrintTreePostorder(root1);
     printf("\n");
 
-    isLeaf(root1, 1); // should be "is not leaf"
-    isLeaf(root1, 0); // should be "is leaf"
-    isLeaf(root1, 6); // should be "is leaf"
+    printf("%d\n", isLeaf(root1, 1)); // should be 0
+    printf("%d\n", isLeaf(root1, 0)); // should be 1
+    printf("%d\n", isLeaf(root1, 6)); // should be 1
+
+    printf("Before remove \n");
+    removeNode(root1, 0);
+    printf("After remove \n");
+
+    printf("Preorder: ");
+    PrintTreePreorder(root1);
+    printf("\n");
 
     return 0; 
 }
