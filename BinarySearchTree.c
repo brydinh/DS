@@ -151,45 +151,82 @@ struct BSTNode* removeNode(struct BSTNode* root, int key)
     return root; 
 } 
 
+
+///////////////////////////////////////////////////
+// CTCI Questions:
+///////////////////////////////////////////////////
+
+
+// 4.2
+// write an algorithm to create a BST w/ minimal height
+struct BSTNode* minHeightConstruction(int* arr1, int size)
+{
+    // assume array is sorted in increasing order.
+    // 1. get medium num of array (this will be the root)
+    // 2. insert the rest of the array in the tree based on root
+
+    struct BSTNode* root = NULL;
+
+    root = insertNode(root, arr1[size/2]);
+
+    for(int x=0; x<size; x++)
+    {
+        if(x != size/2)
+        {
+            root = insertNode(root, arr1[x]);
+        }
+    }
+    
+    return root;
+}
+
 int main()
 {
+    int arr1[] = {1, 2, 3, 4, 5};
+    
     struct BSTNode* root1 = NULL;
-
-    root1 = insertNode(root1, 5);
-    root1 = insertNode(root1, 1);
-    root1 = insertNode(root1, 6);
-    root1 = insertNode(root1, 0);
-    root1 = insertNode(root1, 3);
-
+    root1 = minHeightConstruction(arr1, 5);
+    
     printf("Preorder: ");
     PrintTreePreorder(root1);
+    printf("\n");
+
+    struct BSTNode* root2 = NULL;
+    root2 = insertNode(root2, 5);
+    root2 = insertNode(root2, 1);
+    root2 = insertNode(root2, 6);
+    root2 = insertNode(root2, 0);
+    root2 = insertNode(root2, 3);
+
+    printf("Preorder: ");
+    PrintTreePreorder(root2);
     printf("\n");
     printf("Inorder: ");
-    PrintTreeInorder(root1);
+    PrintTreeInorder(root2);
     printf("\n");
     printf("Postorder: ");
-    PrintTreePostorder(root1);
+    PrintTreePostorder(root2);
     printf("\n");
 
-    printf("Is 1 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 1)); // should be 0
-    printf("Is 0 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 0)); // should be 1
-    printf("Is 6 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 6)); // should be 1
+    printf("Is 1 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root2, 1)); // should be 0
+    printf("Is 0 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root2, 0)); // should be 1
+    printf("Is 6 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root2, 6)); // should be 1
 
-    printf("Count: %d\n", count(root1)); // 5
+    printf("Count: %d\n", count(root2)); // 5
 
-    root1 = removeNode(root1, 6);
+    root2 = removeNode(root2, 6);
 
     printf("Preorder: ");
-    PrintTreePreorder(root1);
+    PrintTreePreorder(root2);
     printf("\n");
-    printf("Count: %d\n", count(root1)); // 4
+    printf("Count: %d\n", count(root2)); // 4
 
-    root1 = removeNode(root1, 5);
+    root2 = removeNode(root2, 5);
 
     printf("Preorder: ");
-    PrintTreePreorder(root1);
+    PrintTreePreorder(root2);
     printf("\n");
-    printf("Count: %d\n", count(root1)); // 3
+    printf("Count: %d\n", count(root2)); // 3
 
     return 0; 
 }
