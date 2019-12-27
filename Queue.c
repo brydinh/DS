@@ -64,12 +64,10 @@ void enqueue(struct Queue* q, int data)
     }
     else
     {
-        struct QNode* temp = q->tail;
-        temp->next = n;
+        q->tail->next = n;
         q->tail = n;
     }   
 }
-
 // FIFO
 void dequeue(struct Queue* q)
 {
@@ -118,21 +116,21 @@ int main()
     printQueue(q1); // 2, 3
     printf("Size: %d\n", size(q1)); // 2
 
-
-
     dequeue(q1);
     printQueue(q1); // 3
     printf("Size: %d\n", size(q1)); // 1
-
 
     dequeue(q1);
     printQueue(q1); // EMPTY
     printf("Size: %d\n", size(q1)); // 0
 
-
     enqueue(q1, 100);
     printQueue(q1); // 100
     printf("Size: %d\n", size(q1)); // 1
-
+    dequeue(q1);
+    printf("Size: %d\n", size(q1)); // 0
+    dequeue(q1);
+    printf("Size: %d\n", size(q1)); // 0
+    
     return 0;
 }
