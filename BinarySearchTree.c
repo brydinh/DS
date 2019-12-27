@@ -116,15 +116,15 @@ struct BSTNode* minValueNode(struct BSTNode* node)
     return current; 
 } 
 
-struct BSTNode* deleteNode(struct BSTNode* root, int key) 
+struct BSTNode* removeNode(struct BSTNode* root, int key) 
 { 
     if (root == NULL) return root;
 
     struct BSTNode* temp;
 
-    if (key < root->data) root->leftChild = deleteNode(root->leftChild, key); 
-    else if (key > root->data) root->rightChild = deleteNode(root->rightChild, key); 
-    else // found node, delete this one
+    if (key < root->data) root->leftChild = removeNode(root->leftChild, key); 
+    else if (key > root->data) root->rightChild = removeNode(root->rightChild, key); 
+    else // found node, remove this one
     {
         // case 1: node has 1 children (left or right) 
         if (root->leftChild == NULL) 
@@ -144,8 +144,8 @@ struct BSTNode* deleteNode(struct BSTNode* root, int key)
             // retrieve inorder successor
             temp = minValueNode(root->rightChild);
             root->data = temp->data;
-            // delete inorder successor
-            root->rightChild = deleteNode(root->rightChild, temp->data);
+            // remove inorder successor
+            root->rightChild = removeNode(root->rightChild, temp->data);
         }
     } 
     return root; 
@@ -177,14 +177,14 @@ int main()
 
     printf("Count: %d\n", count(root1)); // 5
 
-    root1 = deleteNode(root1, 6);
+    root1 = removeNode(root1, 6);
 
     printf("Preorder: ");
     PrintTreePreorder(root1);
     printf("\n");
     printf("Count: %d\n", count(root1)); // 4
 
-    root1 = deleteNode(root1, 5);
+    root1 = removeNode(root1, 5);
 
     printf("Preorder: ");
     PrintTreePreorder(root1);
