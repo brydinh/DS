@@ -111,39 +111,35 @@ struct BSTNode* minValueNode(struct BSTNode* node)
 
 struct BSTNode* deleteNode(struct BSTNode* root, int key) 
 { 
-    if (root == NULL) return root; 
+    if (root == NULL) return root;
+
+    struct BSTNode* temp;
+
     if (key < root->data) root->leftChild = deleteNode(root->leftChild, key); 
     else if (key > root->data) root->rightChild = deleteNode(root->rightChild, key); 
     else // found node, delete this one
     {
-        // case 1: node has no children
-        if(root->leftChild == NULL && root->rightChild == NULL)
-        {
-            free(root);
-            root = NULL;
-            return root;
-        }
-        // case 2: node has 1 children (left or right) 
+        // case 1: node has 1 children (left or right) 
         if (root->leftChild == NULL) 
         { 
-            struct node *temp = root->rightChild; 
-            free(root); 
-            return temp; 
+            temp = root->rightChild; 
+            free(root);
+            root = temp; 
         } 
         else if (root->rightChild == NULL) 
         { 
-            struct node *temp = root->leftChild; 
+            temp = root->leftChild; 
             free(root); 
-            return temp; 
-        } 
-  
-        // case 3: node has two children
-        // retrieve inorder successor
-        struct BSTNode* temp = minValueNode(root->rightChild); 
-        root->data = temp->data; 
-  
-        // Delete the inorder successor 
-        root->rightChild = deleteNode(root->rightChild, temp->data); 
+            root = temp;
+        }
+        else // case 2: node has 2 children (left & right)
+        {
+            // retrieve inorder successor
+            temp = minValueNode(root->rightChild);
+            root->data = temp->data;
+            // delete inorder successor
+            root->rightChild = deleteNode(root->rightChild, temp->data);
+        }
     } 
     return root; 
 } 
@@ -172,13 +168,21 @@ int main()
     printf("%d\n", isLeaf(root1, 0)); // should be 1
     printf("%d\n", isLeaf(root1, 6)); // should be 1
 
-    printf("Before remove \n");
-    root1 = deleteNode(root1, 0);
-    printf("After remove \n");
+    //root1 = deleteNode(root1, 0);
+    root1 = deleteNode(root1, 6);
+
 
     printf("Preorder: ");
     PrintTreePreorder(root1);
     printf("\n");
+
+    root1 = deleteNode(root1, 5);
+
+
+    printf("Preorder: ");
+    PrintTreePreorder(root1);
+    printf("\n");
+
 
     return 0; 
 }
