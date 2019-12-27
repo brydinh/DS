@@ -156,7 +156,6 @@ struct BSTNode* removeNode(struct BSTNode* root, int key)
 // CTCI Questions:
 ///////////////////////////////////////////////////
 
-
 // 4.2
 // write an algorithm to create a BST w/ minimal height
 struct BSTNode* minHeightConstruction(int* arr1, int size)
