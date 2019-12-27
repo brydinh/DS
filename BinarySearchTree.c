@@ -69,6 +69,13 @@ void PrintTreePreorder(struct BSTNode* root)
     PrintTreePreorder(root->rightChild);   
 }
 
+int count(struct BSTNode* root)
+{
+    if (root == NULL) return 0;
+    
+    return 1 + count(root->leftChild) + count(root->rightChild);
+}
+
 int isLeaf(struct BSTNode* root , int findThis)
 {
     while(root != NULL)
@@ -100,7 +107,7 @@ struct BSTNode* minValueNode(struct BSTNode* node)
 { 
     struct BSTNode* current = node; 
   
-    /* loop to find the leftmost leaf */
+    // find the leftmost leaf
     while (current && current->leftChild != NULL)
     {
         current = current->leftChild; 
@@ -164,25 +171,25 @@ int main()
     PrintTreePostorder(root1);
     printf("\n");
 
-    printf("%d\n", isLeaf(root1, 1)); // should be 0
-    printf("%d\n", isLeaf(root1, 0)); // should be 1
-    printf("%d\n", isLeaf(root1, 6)); // should be 1
+    printf("Is 1 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 1)); // should be 0
+    printf("Is 0 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 0)); // should be 1
+    printf("Is 6 a leaf? (0 = no, 1 = yes): %d\n", isLeaf(root1, 6)); // should be 1
 
-    //root1 = deleteNode(root1, 0);
+    printf("Count: %d\n", count(root1)); // 5
+
     root1 = deleteNode(root1, 6);
-
 
     printf("Preorder: ");
     PrintTreePreorder(root1);
     printf("\n");
+    printf("Count: %d\n", count(root1)); // 4
 
     root1 = deleteNode(root1, 5);
 
-
     printf("Preorder: ");
     PrintTreePreorder(root1);
     printf("\n");
-
+    printf("Count: %d\n", count(root1)); // 3
 
     return 0; 
 }
